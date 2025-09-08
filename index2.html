@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCC Application Form</title>
+  <link rel="icon" href="assets/Screenshot 2025-09-07 185857.png" type="image/x-icon">
+
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #ffdad5, #fff7f9);
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* Dark Mode Styles */
+    body.dark {
+      background: linear-gradient(135deg, #1a1a1a, #2b2b2b);
+      color: #f0f0f0;
+    }
+
+    body.dark .contact-inputs {
+      background: #333;
+      color: #f0f0f0;
+    }
+
+    body.dark .contact-left button {
+      background: linear-gradient(270deg, #6a11cb, #2575fc);
+    }
+
+    body.dark .important-note {
+      background: #2d2d2d;
+      border-left: 6px solid #2575fc;
+      color: #fff;
+    }
+
+    /* Dark Mode Toggle Button */
+    .dark-toggle {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: #fff;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .dark-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .dark-toggle img {
+      width: 24px;
+      height: 24px;
+    }
+
+    body.dark .dark-toggle {
+      background: #333;
+    }
+
+    /* Container */
+    .Contact-container {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      padding: 20px;
+      min-height: 100vh;
+      flex-wrap: wrap;
+    }
+
+    /* Left Section - Form */
+    .contact-left {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .contact-left-tittle h2 {
+      font-weight: 700;
+      color: #b05eb6;
+      font-size: 42px;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+    .contact-left-tittle hr {
+      border: none;
+      width: 140px;
+      height: 5px;
+      background: linear-gradient(90deg, #ff9a8b, #b05eb6);
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .contact-inputs {
+      width: 100%;
+      height: 50px;
+      border: none;
+      outline: none;
+      padding-left: 20px;
+      font-weight: 500;
+      color: #444;
+      border-radius: 50px;
+      background: #fff;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      transition: 0.3s ease;
+    }
+
+    .contact-left textarea {
+      height: 150px;
+      padding: 15px 20px;
+      border-radius: 20px;
+      resize: none;
+    }
+
+    .contact-inputs:focus {
+      border: 2px solid #fa6d86;
+      box-shadow: 0 4px 12px rgba(250, 109, 134, 0.25);
+    }
+
+    .contact-inputs::placeholder {
+      font-weight: bold;
+      color: #645d5d;
+      font-size: 16px;
+    }
+
+    /* Submit Button */
+    .contact-left button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 35px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      gap: 10px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(270deg, #ff994f, #fa6d86);
+      box-shadow: 0 4px 15px rgba(250, 109, 134, 0.3);
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .contact-left button:hover {
+      opacity: 0.9;
+    }
+
+    .contact-left button img {
+      height: 16px;
+    }
+
+    /* Right Section Image */
+    .contact-right img {
+      width: 480px;
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    /* Photo Upload Box */
+    .photo-box {
+      width: 150px;
+      height: 180px;
+      border: 5px solid transparent;
+      border-radius: 12px;
+      background: linear-gradient(white, white) padding-box,
+                  linear-gradient(135deg, #f9d423, #ff4e50) border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo-box:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .photo-box input {
+      display: none;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* Important Note */
+    .important-note {
+      margin: 20px 0;
+      padding: 15px 20px;
+      border-left: 6px solid #fa6d86;
+      background: #fff4f7;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    }
+
+    .important-note p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #b03a4a;
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .Contact-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+      }
+
+      .contact-left {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .contact-inputs {
+        width: 95%;
+      }
+
+      .photo-box {
+        width: 120px;
+        height: 150px;
+        margin: 0 auto 20px auto;
+      }
+
+      .contact-left-tittle h2 {
+        font-size: 32px;
+        text-align: center;
+      }
+
+      .contact-left-tittle hr {
+        margin: 10px auto 20px auto;
+      }
+
+      .contact-left button {
+        width: 95%;
+      }
+
+      .important-note {
+        width: 95%;
+        margin: 15px auto;
+      }
+
+      .contact-right {
+        display: none;
+      }
+    }
+
+    .simple-h3 {
+      font-family: 'Arial', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: #4e3a5e;
+    }
+
+    /* Highlighted Contact Info */
+.contact-info-highlight {
+  margin-top: 40px;
+  padding: 25px 20px;
+  width: 100%;
+  max-width: 600px;
+  background: linear-gradient(135deg, #fa6d86, #ff994f);
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  text-align: center;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+}
+
+.contact-info-highlight p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.contact-info-highlight a {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 700;
+}
+ /* Watermark container */
+.watermark {
+  position: fixed;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  pointer-events: none; /* user can’t click */
+  z-index: 9999;
+}
+
+/* Bottom right watermark with animation */
+.bottom-right {
+  bottom: 10px;
+  right: 10px;
+  animation: floatFade 4s ease-in-out infinite;
+}
+
+/* Keyframes for animation */
+@keyframes floatFade {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0px);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(0px);
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- Dark Mode Toggle Button -->
+  <div class="dark-toggle" id="darkToggle">
+    <img id="darkIcon" src="https://img.icons8.com/ios-filled/50/moon-symbol.png" alt="Dark Mode">
+  </div>
+
+  <div class="Contact-container">
+
+    <!-- Form Section -->
+    <form action="https://api.web3forms.com/submit" method="POST" class="contact-left">
+      <div class="contact-left-tittle">
+        <h2>RCC Application Form</h2>
+        <hr>
+      </div>
+
+      <!-- Photo Upload at Top -->
+      <label class="photo-box">
+        <input type="file" id="photoInput" accept="image/*">
+        <span>Student photo</span>
+        <img id="photoPreview" style="display:none;">
+      </label>
+
+      <!-- Form Fields --> 
+      <input type="hidden" name="access_key" value="3ea3c87c-7fdc-4dd4-8b23-15e598650556">
+      <h3 class="simple-h3">1.Player Name with Initials</h3> 
+      <input type="text" name=" Player Name with Initials" placeholder="e.g.- M.A. Supun Mihiranga" class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">2. Name in Full</h3> 
+      <input type="text" name=" Name in Full" placeholder="e.g.- Mahathun Arachchilage Supun Mihiranga " class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">3.Address</h3>
+      <input type="text" name="Address" placeholder="e.g.- No. 93/3, N.h.s. Hekitta, Wattala." class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">4. Birth Day</h3> 
+      <input type="text" id="birthday" name="birthday" class="contact-inputs" placeholder="Birth Day" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text';" required>
+      <br> 
+      <h3 class="simple-h3">5.Age</h3>
+      <input type="text" name="Age" placeholder="e.g.- 17" class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">6.School / Occupation</h3>
+      <input type="text" name="School / Occupation" placeholder="e.g.- Karunarathna Buddhist College, Ragama" class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">7.Telephone Home</h3>
+      <input type="tel" name="Telephone Home" placeholder="e.g.- +94 72 000 0000" class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">8.Whatsapp Mobile</h3>
+      <input type="tel" name="Whatsapp Mobile" placeholder="e.g.- +94 72 000 0000" class="contact-inputs" required>
+      <br>
+      <h3 class="simple-h3">9.Parent Name</h3>
+      <input type="text" name="Parent Name" placeholder="e.g.- Chamila Athukorala" class="contact-inputs" required>
+      <br>
+
+      <!-- Important Note -->
+      <div class="important-note">
+        <p>I hereby certify that the above particulars are true and correct to the best of my knowledge.</p>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit">Submit <img src="assets/arrow_icon.png" alt=""></button>
+    </form>
+
+    <!-- Right Section Image -->
+    <div class="contact-right">
+      <img src="assets/Screenshot 2025-09-07 185857.png" alt="">
+    </div> 
+  </div> 
+
+  <!-- Script for Photo Preview -->
+  <script>
+    const photoInput = document.getElementById("photoInput");
+    const photoPreview = document.getElementById("photoPreview");
+    const darkToggle = document.getElementById("darkToggle");
+    const darkIcon = document.getElementById("darkIcon");
+
+    // Photo preview
+    photoInput.addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          photoPreview.src = e.target.result;
+          photoPreview.style.display = "block";
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Dark mode toggle
+    darkToggle.addEventListener("click", function() {
+      document.body.classList.toggle("dark");
+      if (document.body.classList.contains("dark")) {
+        darkIcon.src = "https://img.icons8.com/ios-filled/50/sun--v1.png";
+        darkIcon.alt = "Light Mode";
+      } else {
+        darkIcon.src = "https://img.icons8.com/ios-filled/50/moon-symbol.png";
+        darkIcon.alt = "Dark Mode";
+      }
+    });
+  </script>
+<!-- Contact Information -->
+<center><div class="contact-info-highlight">
+  <p><strong>Colombo District Cricket Association</strong></p>
+  <p>Royal Cricket Club, Sangaraja Mawatha, Hunupitiya Wattala, Sri Lanka</p>
+  <p>E-mail – <a href="mailto:royalccsrasanga770@gmail.com">royalccsrasanga770@gmail.com</a></p>
+  <p>Tel. +94 722 125 638 / +94 766 899 712</p>
+</div>
+</center>
+
+  <!-- Watermarks -->
+  
+  <div class="watermark bottom-right">Made by Sandaru Dissanayaka</div>
+
+
+</body>
+</html>
